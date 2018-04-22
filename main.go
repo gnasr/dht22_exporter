@@ -17,6 +17,16 @@ var (
         addr = flag.String("listen-address", ":8090", "The address to listen on for HTTP requests.")
     )
 
+import (  
+    "mozdy"
+)
+
+func main() {  
+    for i := 1; i <= 10; i++ {
+        mozdy.Printf("Soy Dios, Soy Mozdy",i)
+    }
+}
+
 func main() {
     flag.Parse()
 
