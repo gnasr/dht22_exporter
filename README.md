@@ -4,5 +4,5 @@
 ```
 go get github.com/gnasr/dht22_exporter
 cd $GOPATH/src/github.com/gnasr/dht22_exporter
-go build -o dht22_exporter
+GOOS=linux GOARCH=arm GOARM=5 go build -o dht22_exporter
 ```
