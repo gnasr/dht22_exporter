@@ -18,8 +18,14 @@ type stats struct {
 
 func newCollector(gpioPort string) stats {
 	sensor := dht22.New(gpioPort)
-	temperature, _ := sensor.Temperature()
-	humidity, _ := sensor.Humidity()
+	temperature, err := sensor.Temperature()
+	if err != nil {
+		log.Fatal(err)
+	}
+	humidity, err := sensor.Humidity()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return stats{temperature: temperature, humidity: humidity}
 }
@@ -40,8 +46,7 @@ func main() {
 			Help:      "Temperature in Celsius",
 		},
 		func() float64 {
-			t := newCollector(*gpioPort)
-			return float64(t.temperature)
+			return float64(newCollector(*gpioPort).temperature)
 		},
 	)); err == nil {
 		fmt.Println("GaugeFunc 'temperature_celsius', registered.")
@@ -54,8 +59,7 @@ func main() {
 			Help:      "Humidity in percent",
 		},
 		func() float64 {
-			h := newCollector(*gpioPort)
-			return float64(h.humidity)
+			return float64(newCollector(*gpioPort).humidity)
 		},
 	)); err == nil {
 		fmt.Println("GaugeFunc 'humidity_percent', registered.")
