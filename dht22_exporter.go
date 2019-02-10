@@ -11,25 +11,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-type stats struct {
-	temperature float32
-	humidity    float32
-}
-
-func newCollector(gpioPort string) stats {
-	sensor := dht22.New(gpioPort)
-	temperature, err := sensor.Temperature()
-	if err != nil {
-		log.Fatal(err)
-	}
-	humidity, err := sensor.Humidity()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return stats{temperature: temperature, humidity: humidity}
-}
-
 func main() {
 	var (
 		addr        = flag.String("listen-address", ":9543", "The address to listen on for HTTP requests.")
@@ -46,7 +27,12 @@ func main() {
 			Help:      "Temperature in Celsius",
 		},
 		func() float64 {
-			return float64(newCollector(*gpioPort).temperature)
+			sensor := dht22.New(*gpioPort)
+			temperature, err := sensor.Temperature()
+			if err != nil {
+				log.Fatal(err)
+			}
+			return float64(temperature)
 		},
 	)); err == nil {
 		fmt.Println("GaugeFunc 'temperature_celsius', registered.")
@@ -59,7 +45,12 @@ func main() {
 			Help:      "Humidity in percent",
 		},
 		func() float64 {
-			return float64(newCollector(*gpioPort).humidity)
+			sensor := dht22.New(*gpioPort)
+			humidity, err := sensor.Humidity()
+			if err != nil {
+				log.Fatal(err)
+			}
+			return float64(humidity)
 		},
 	)); err == nil {
 		fmt.Println("GaugeFunc 'humidity_percent', registered.")
