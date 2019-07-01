@@ -12,7 +12,7 @@ import (
 
 var (
 	listenAddress = flag.String("listen-address", ":9543", "The address to listen on for HTTP requests.")
-	metricsPath   = flag.String("metrics-path", "/metrics", "The address to listen on for HTTP requests.")
+	metricsPath   = flag.String("metrics-path", "/metrics", "The path of the metrics endpoint.")
 	gpioPort      = flag.String("gpio-port", "4", "The GPIO port where DHT22 is connected.")
 )
 
