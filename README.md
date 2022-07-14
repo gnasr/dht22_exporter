@@ -15,4 +15,4 @@ GOOS=linux GOARCH=arm GOARM=5 go build -o dht22_exporter
 ```
 
 ## License
-GNU License, see [LICENSE](LICENSE.md)
+2022 GNU License, see [LICENSE](LICENSE.md)
